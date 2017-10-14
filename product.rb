@@ -11,14 +11,14 @@ class Product
     products = DB[:products]
     product = products[{ id: id }]
     raise Exception.new('could not find product') if product.nil?
-    new_product = Product.new
-    new_product.id = product[:id]
-    new_product.name = product[:name]
-    new_product.type = product[:type]
-    new_product.price = product[:price]
-    new_product.stock = product[:stock]
-    new_product.expires_at = product[:expires_at]
-    new_product
+    found_product = Product.new
+    found_product.id = product[:id]
+    found_product.name = product[:name]
+    found_product.type = product[:type]
+    found_product.price = product[:price]
+    found_product.stock = product[:stock]
+    found_product.expires_at = product[:expires_at]
+    found_product
   end
 
   def add
@@ -26,17 +26,17 @@ class Product
     @id = products.insert(type: @type, price: @price, stock: @stock, expires_at: @expires_at)
   end
 
+  def delete
+    return false if @id.nil?
+    products = DB[:products]
+    products.where(id: @id).delete
+  end
+
   def update_stock(stock)
     return false if @id.nil? or stock.nil?
     products = DB[:products]
     products.where(id: @id).update(stock: stock)
     @stock = stock
-  end
-
-  def delete
-    return false if @id.nil?
-    products = DB[:products]
-    products.where(id: @id).delete
   end
 
   #to be deleted when finders are in place

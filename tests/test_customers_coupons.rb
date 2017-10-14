@@ -1,11 +1,11 @@
 require 'sqlite3'
 require 'sequel'
 
-DB = Sequel.connect('sqlite://store')
+DB = Sequel.connect('sqlite://../store')
 
-require './customer.rb'
-require './coupon.rb'
-require './loyal_customer.rb'
+require '../customer.rb'
+require '../coupon.rb'
+require '../loyal_customer.rb'
 
 
 #### Testing add/remove (loyal) customer and coupons

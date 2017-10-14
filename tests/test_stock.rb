@@ -1,9 +1,9 @@
 require 'sqlite3'
 require 'sequel'
 
-DB = Sequel.connect('sqlite://store')
+DB = Sequel.connect('sqlite://../store')
 
-require './product.rb'
+require '../product.rb'
 
 product = Product.find(1)
 

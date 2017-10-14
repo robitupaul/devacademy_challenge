@@ -88,5 +88,9 @@ coupons.insert(customer_id: 3, product_type: 'desserts', value: 10)
 
 sales = DB[:sales]
 
-sales.insert(customer_id: 3, product_id: 1, value: 5)
-sales.insert(customer_id: 3, product_id: 4, value: 7)
+sales.insert(customer_id: 3, product_id: 20, value: 5, created_at: '2017-10-14 19:29:13')
+sales.insert(customer_id: 3, product_id: 30, value: 5, created_at: '2017-10-10 19:29:13')
+sales.insert(customer_id: 3, product_id: 3, value: 5, created_at: '2017-10-11 19:29:13')
+sales.insert(customer_id: 3, product_id: 31, value: 5, created_at: '2017-10-12 19:29:13')
+sales.insert(customer_id: 3, product_id: 19, value: 5, created_at: '2017-10-13 19:29:13')
+sales.insert(customer_id: 3, product_id: 4, value: 7, created_at: '2017-10-13 19:29:13')

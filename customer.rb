@@ -5,7 +5,18 @@
 
 class Customer
 
-  attr_accessor :id, :name
+  attr_accessor :id, :name, :is_loyal
+
+  def self.find(id)
+    customers = DB[:customers]
+    customer = customers[{ id: id }]
+    raise Exception.new('could not find customer') if customer.nil?
+    found_customer = Customer.new
+    found_customer.id = customer[:id]
+    found_customer.name = customer[:name]
+    found_customer.is_loyal = customer[:is_loyal]
+    found_customer
+  end
 
   def add
     customers = DB[:customers]

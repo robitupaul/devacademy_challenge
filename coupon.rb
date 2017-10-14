@@ -5,11 +5,43 @@
 
 class Coupon
 
-  attr_accessor :customer_id, :product_type, :value
+  attr_accessor :id, :customer_id, :product_type, :value, :is_used
+
+  def self.find(id)
+    coupons = DB[:coupons]
+    coupon = coupons[{ id: id }]
+    raise Exception.new('Coupon not found') if coupon.nil?
+    found_coupon = Coupon.new
+    found_coupon.id = coupon[:id]
+    found_coupon.customer_id = coupon[:customer_id]
+    found_coupon.product_type = coupon[:product_type]
+    found_coupon.value = coupon[:value]
+    found_coupon.is_used = coupon[:is_used]
+    found_coupon
+  end
+
+  def self.find_for_customer(customer_id)
+    coupons = DB[:coupons]
+    coupon = coupons[{ customer_id: customer_id }]
+    raise Exception.new('Customer doesn\'t have any coupons') if coupon.nil?
+    found_coupon = Coupon.new
+    found_coupon.id = coupon[:id]
+    found_coupon.customer_id = coupon[:customer_id]
+    found_coupon.product_type = coupon[:product_type]
+    found_coupon.value = coupon[:value]
+    found_coupon.is_used = coupon[:is_used]
+    found_coupon
+  end
 
   def add
     coupons = DB[:coupons]
     coupons.insert(customer_id: @customer_id, product_type: @product_type, value: @value)
+  end
+
+  def use
+    coupons = DB[:coupons]
+    coupons.where(id: @id).update(is_used: true)
+    @is_used = true
   end
 
 end

@@ -3,10 +3,7 @@
 
 #DB = Sequel.connect('sqlite://store')
 
-require './customer.rb'
-
 class LoyalCustomer < Customer
-  attr_accessor :is_loyal
 
   def initialize(customer = nil)
     @name = customer.name unless customer.nil?
