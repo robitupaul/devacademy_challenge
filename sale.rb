@@ -13,11 +13,14 @@ class Sale
     coupon_id = nil
     if customer.is_loyal
       begin
-        coupon = Coupon.find_for_customer(customer_id)
-        if product.type == coupon.product_type and !coupon.is_used
-          price = product.price - product.price * coupon.value / 100
-          coupon.use
-          coupon_id = coupon.id
+        coupons = Coupon.find_by_customer(customer_id)
+        coupons.each do |coupon|
+          if product.type == coupon.product_type and !coupon.is_used
+            price = product.price - product.price * coupon.value / 100
+            coupon.use
+            coupon_id = coupon.id
+            break
+          end
         end
       rescue Exception => e
 

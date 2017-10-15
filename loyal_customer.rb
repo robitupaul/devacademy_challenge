@@ -24,6 +24,8 @@ class LoyalCustomer < Customer
 
   def add_coupon(product_type, value)
     raise Exception.new('Cannot add coupon for unsaved customer') if @id.nil?
+    types = ['coffee', 'softdrink', 'desserts', 'cup', 'coaster', 'keyring']
+    raise Exception.new("Type #{product_type} does not exist. Try one of #{types}") unless types.include? product_type
     coupon = Coupon.new
     coupon.customer_id = @id
     coupon.product_type = product_type

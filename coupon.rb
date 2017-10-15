@@ -20,17 +20,20 @@ class Coupon
     found_coupon
   end
 
-  def self.find_for_customer(customer_id)
-    coupons = DB[:coupons]
-    coupon = coupons[{ customer_id: customer_id }]
-    raise Exception.new('Customer doesn\'t have any coupons') if coupon.nil?
-    found_coupon = Coupon.new
-    found_coupon.id = coupon[:id]
-    found_coupon.customer_id = coupon[:customer_id]
-    found_coupon.product_type = coupon[:product_type]
-    found_coupon.value = coupon[:value]
-    found_coupon.is_used = coupon[:is_used]
-    found_coupon
+  def self.find_by_customer(customer_id)
+    coupons = DB[:coupons].where( customer_id: customer_id ).all
+    raise Exception.new('Customer doesn\'t have any coupons') if coupons.nil?
+    found_coupons = []
+    coupons.each do |coupon|
+      found_coupon = Coupon.new
+      found_coupon.id = coupon[:id]
+      found_coupon.customer_id = coupon[:customer_id]
+      found_coupon.product_type = coupon[:product_type]
+      found_coupon.value = coupon[:value]
+      found_coupon.is_used = coupon[:is_used]
+      found_coupons << found_coupon
+    end
+    found_coupons
   end
 
   def add
