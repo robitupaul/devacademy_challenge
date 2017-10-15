@@ -40,7 +40,7 @@ class Product
 
   def add
     products = DB[:products]
-    @id = products.insert(type: @type, price: @price, stock: @stock, expires_at: @expires_at)
+    @id = products.insert(name: @name, type: @type, price: @price, stock: @stock, expires_at: @expires_at)
   end
 
   def delete
@@ -56,12 +56,6 @@ class Product
     @stock = stock
   end
 
-  #to be deleted when finders are in place
-  def self.delete(id)
-    products = DB[:products]
-    products.where(id: id).delete
-  end
-
   #Show all products with 0 stock or are expired
   def self.show_unavailable
     products = DB[:products]
@@ -70,6 +64,16 @@ class Product
       print "Product #{product[:name]} / type: #{product[:type]} "
       print "has 0 stock " if product[:stock].zero?
       print "is expired" if !product[:expires_at].nil? and product[:expires_at] < Time.now
+      print "\n"
+    end
+  end
+
+  def self.all
+    products = DB[:products].all
+    products.each do |product|
+      puts "id:#{product[:id]}\tname:#{product[:name]} "
+      puts "\ttype:#{product[:type]}\tstock:#{product[:stock]}\tprice:#{product[:price]}"
+      print "\texpires at:#{product[:expires_at]}\n" unless product[:expires_at].nil?
       print "\n"
     end
   end

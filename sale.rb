@@ -40,9 +40,9 @@ class Sale
     sales = DB[:sales]
     last_days_sales = sales.where{ created_at > Time.now - days*60*60*24 }.all
     last_days_sales.each do |sale|
-      print "Sale id: #{sale[:id]} by #{Customer.find(sale[:customer_id]).name} product:#{Product.find(sale[:product_id]).name} "
-      print "on #{sale[:created_at]} value:#{sale[:value]} "
-      print "using coupon id: #{sale[:coupon_id]} of #{Coupon.find(sale[:coupon_id]).value}%" unless sale[:coupon_id].nil?
+      print "Sale id: #{sale[:id]}\tcustomer:#{Customer.find(sale[:customer_id]).name}\t\tproduct:#{Product.find(sale[:product_id]).name} "
+      print "\ton #{sale[:created_at]}\tvalue:#{sale[:value]} "
+      print "\tusing coupon id:#{sale[:coupon_id]} of #{Coupon.find(sale[:coupon_id]).value}%" unless sale[:coupon_id].nil?
       print "\n"
     end
   end

@@ -11,14 +11,25 @@ class LoyalCustomer < Customer
     @is_loyal = true
   end
 
+  def self.find(id)
+    customers = DB[:customers]
+    customer = customers[{ id: id, is_loyal: true }]
+    raise Exception.new("could not find loyal customer") if customer.nil?
+    found_customer = LoyalCustomer.new
+    found_customer.id = customer[:id]
+    found_customer.name = customer[:name]
+    found_customer.is_loyal = customer[:is_loyal]
+    found_customer
+  end
+
   def add
     customers = DB[:customers]
     @id = customers.insert(name: @name, is_loyal: true)
   end
 
   def delete
-    coupons = DB[:coupons]
-    coupons.where(customer_id: @id).delete
+    DB[:sales].where(customer_id: @id).delete
+    DB[:coupons].where(customer_id: @id).delete
     super
   end
 
@@ -31,5 +42,13 @@ class LoyalCustomer < Customer
     coupon.product_type = product_type
     coupon.value = value
     coupon.add
+  end
+
+  def self.all
+    customers = DB[:customers].where( is_loyal: 1 ).all
+    customers.each do |customer|
+      puts "id:#{customer[:id]} name:#{customer[:name]}"
+    end
+    print "\n"
   end
 end

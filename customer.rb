@@ -70,4 +70,21 @@ class Customer
       print "\n"
     end
   end
+
+  def self.all
+    customers = DB[:customers].all
+    customers.each do |customer|
+      puts "id:#{customer[:id]} name:#{customer[:name]} loyal:#{customer[:is_loyal]}"
+    end
+    print "\n"
+  end
+
+  def self.all_regular
+    customers = DB[:customers].where( is_loyal: false ).all
+    customers.each do |customer|
+      puts "id:#{customer[:id]} name:#{customer[:name]} loyal:#{customer[:is_loyal]}"
+    end
+    print "\n"
+  end
+
 end
